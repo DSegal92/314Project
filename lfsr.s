@@ -55,7 +55,7 @@ EncryptMsg:
 MessageEnd:
  syscall					# print msg5
  la $s2, buffer					# $s2 = address of input buffer
- 
+
 NextChar:
  # Read the next input character from the input file
  li $v0, 14					# read from the input file
@@ -66,6 +66,11 @@ NextChar:
  
  beqz $v0, DoneE 				# break if no more bytes are read
  lb $s3, ($s2) 					# Load buffer into $s3
+ 
+ # Print characters for testing
+# li $v0, 4
+# la $a0, buffer
+# syscall
  
  # Generating next random number
  move $a0, $s0					# set $a0 = feedback polynomial
@@ -79,7 +84,7 @@ NextChar:
  jal RAND2
  move $s4, $v0                                  # storing returned number as next seed
 
-# Combining the random number generated with the character in the string
+ # Combining the random number generated with the character in the string
  move $t2, $s1 					# $t2 = last generated seed for first polynomial
  srl $t2, $t2, 4 				# shift seed 4 bits to the left
  andi $s1, $s1, 15 				# overwrite last 4 bits of seed with 1111
